@@ -32,11 +32,7 @@
 
 				$this.data('settings', self.opt);
 
-				if (typeof self.opt.number == 'function') {
-					self.opt.number = self.opt.number.call(self);
-				} else {
-					self.opt.number = methods.between(self.opt.number, 0, 20)
-				}
+				self.opt.number = methods.between(self.opt.number, 0, 20);
 
 				if (self.opt.path.substring(self.opt.path.length - 1, self.opt.path.length) != '/') {
 					self.opt.path += '/';
@@ -54,6 +50,7 @@
 					$('<img />', {
 						src		: self.opt.path + ((!self.opt.score || self.opt.score < i) ? self.opt.starOff : self.opt.starOn),
 						alt		: i,
+                        width   : self.opt.size,
 						title	: (i <= self.opt.hints.length && self.opt.hints[i - 1] !== null) ? self.opt.hints[i - 1] : i
 					}).appendTo(self);
 
@@ -63,7 +60,7 @@
 				}
 
 				self.stars = $this.children('img:not(".raty-cancel")');
-				self.score = $('<input />', { type: 'hidden', name: self.opt.scoreName }).appendTo(self);
+				self.score = $('<input />', { type: 'hidden', id: d.opt.scoreName, name: self.opt.scoreName }).appendTo(self);
 
 				if (self.opt.score && self.opt.score > 0) {
 					self.score.val(self.opt.score);
@@ -370,7 +367,7 @@
 					} else {
 						score = this.opt.precision
 								? parseFloat(score).toFixed(1)
-								: score;
+								: parseInt(score, 10);
 					}
 				}
 
@@ -436,7 +433,7 @@
 		click			: undefined,
 		half			: false,
 		halfShow		: true,
-		hints			: ['bad', 'poor', 'regular', 'good', 'gorgeous'],
+		hints			: ['Very Bad', 'Bad', 'Okay', 'Good', 'Very Good'],
 		iconRange		: undefined,
 		mouseover		: undefined,
 		noRatedMsg		: 'not rated yet',
